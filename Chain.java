@@ -3,30 +3,18 @@ import java.util.*;
 
 
 class Chain {
-	static final int NPREF = 2;	// size of prefix
-	static final String NONWORD = "\n";
-					// "word" that can't appear
+	static final int NPREF = 2;	// プレフィックスの長さ
+	static final String NONWORD = "\n"; // 現れない単語
 	Hashtable<Prefix,Vector<String>> statetab = new Hashtable<Prefix,Vector<String>>();
-					// key = Prefix, value = suffix Vector
-	Prefix prefix = new Prefix(NPREF, NONWORD);
-					// initial prefix
+					// キーはプレフィックス, 値はサフィックスのVector<String>
+	Prefix prefix = new Prefix(NPREF, NONWORD); // 初期のプレフィックス
 	Random rand = new Random();
 
-	// Chain build: build State table from input stream
+	// Chain build: 入力のストリームから状態テーブルを作成する
 	void build(InputStream in) throws IOException
 	{
-		// StreamTokenizer is not recommended in Java version 1.8
-		/*
-		StreamTokenizer st = new StreamTokenizer(in);
-
-		st.resetSyntax();                     // remove default rules
-		st.wordChars(0, Character.MAX_VALUE); // turn on all chars
-		st.whitespaceChars(0, ' ');           // except up to blank
-		while (st.nextToken() != st.TT_EOF)
-			add(st.sval);
-		*/
-
-		// replace the StreamTokenizer to String.split
+		// StreamTokenizer は Java1.8 では非推奨である
+		// StreamTokenizerk から String.split を利用する形に変更
 		String line = convertInputStreamToString(in);
 		String delims = " ";
 
@@ -39,8 +27,8 @@ class Chain {
 		add(NONWORD);
 	}
 
-	// Add this method to Original Chain Class
-	// Chain convertInputStreamToString: convert InputStream to String
+	// 追加したメソッド
+	// Chain convertInputStreamToString: InputStream を String型に変換する
 	static String convertInputStreamToString(InputStream is) throws IOException {
 	    InputStreamReader reader = new InputStreamReader(is);
 	    StringBuilder builder = new StringBuilder();
@@ -53,10 +41,10 @@ class Chain {
 	    return builder.toString();
 	}
 
-	// Chain add: add word to suffix list, update prefix
+	// Chain add: サフィックスのリストに単語を追加する
 	void add(String word)
 	{
-		// Fix the un-recommended description
+		// 非推奨な記述を修正
 		Vector<String> suf = statetab.get(prefix);
 		if (suf == null) {
 			suf = new Vector<String>();
@@ -67,7 +55,7 @@ class Chain {
 		prefix.pref.addElement(word);
 	}
 
-	// Chain generate: generate output words
+	// Chain generate: 出力の単語を生成
 	void generate(int nwords)
 	{
 		prefix = new Prefix(NPREF, NONWORD);

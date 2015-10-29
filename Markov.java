@@ -4,14 +4,14 @@
 
 // http://www.cs.princeton.edu/~bwk/tpop.webpage/Markov.java
 
-// This code is modified for Java version 1.8 by him0.
+// このコードはJava 1.8で動作するようhim0によって修正されています。
 
 import java.io.*;
 import java.util.*;
 
 
 class Markov {
-	static final int MAXGEN = 10000; // maximum words generated
+	static final int MAXGEN = 10000; // 生成される単語の最大長
 	public static void main(String[] args) throws IOException
 	{
 		Chain chain = new Chain();
