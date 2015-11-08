@@ -3,34 +3,24 @@ import java.util.*;
 
 
 class Chain {
-	static final int NPREF = 2;	// プレフィックスの長さ
+	int NPREF = 1;	// プレフィックスの長さ
 	static final String NONWORD = "\n"; // 現れない単語
 	Hashtable<Prefix,Vector<String>> statetab = new Hashtable<Prefix,Vector<String>>();
 					// キーはプレフィックス, 値はサフィックスのVector<String>
 	Prefix prefix = new Prefix(NPREF, NONWORD); // 初期のプレフィックス
 	Random rand = new Random();
 
-	// Chain build: 入力のストリームから状態テーブルを作成する
-	void build(InputStream in) throws IOException
+	public Chain(int prefix_length) {
+		NPREF = prefix_length;
+		prefix = new Prefix(NPREF, NONWORD);
+	}
+
+	// Chain build: 入力のストリームで受け取った場合 String 型に変換
+	void build(InputStream is) throws IOException
 	{
 		// StreamTokenizer は Java1.8 では非推奨である
 		// StreamTokenizerk から String.split を利用する形に変更
-		String line = convertInputStreamToString(in);
-		String delims = " ";
-
-		String[] tokens = line.split(delims);
-		int tokenCount = tokens.length;
-		for (int i=0; i < tokenCount; i++) {
-			add(tokens[i]);
-		}
-
-		add(NONWORD);
-	}
-
-	// 追加したメソッド
-	// Chain convertInputStreamToString: InputStream を String型に変換する
-	static String convertInputStreamToString(InputStream is) throws IOException {
-	    InputStreamReader reader = new InputStreamReader(is);
+		InputStreamReader reader = new InputStreamReader(is);
 	    StringBuilder builder = new StringBuilder();
 	    char[] buf = new char[1024];
 	    int numRead;
@@ -38,7 +28,20 @@ class Chain {
 		while (0 <= (numRead = reader.read(buf))) {
 	        builder.append(buf, 0, numRead);
 	    }
-	    return builder.toString();
+		build(builder.toString());
+	}
+
+	// Chain build: Stringで受け取った場合 状態テーブルを作成
+	void build(String seed) {
+		String delims = " ";
+
+		String[] tokens = seed.split(delims);
+		int tokenCount = tokens.length;
+		for (int i=0; i < tokenCount; i++) {
+			add(tokens[i]);
+		}
+
+		add(NONWORD);
 	}
 
 	// Chain add: サフィックスのリストに単語を追加する
