@@ -28,7 +28,7 @@ class Markov {
 				i++;
                 prefix_length = Integer.parseInt(args[i]);
             } else {
-	        System.err.println("未定義の引数を検知しました．s");
+	        System.err.println("未定義の引数を検知しました．");
             }
         }
 
