@@ -16,7 +16,7 @@ class Markov {
 	{
 		int nwords = MAXGEN;
 		boolean input_from_file = false;
-		int prefix_length = 3;
+		int prefix_length = 2;
 		String file_name = "";
 
 		for (int i=0; i<args.length; i++) {
