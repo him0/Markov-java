@@ -70,9 +70,15 @@ class Chain {
 			}
 			int r = Math.abs(rand.nextInt()) % s.size();
 			String suf = (String) s.elementAt(r);
-			if (suf.equals(NONWORD))
+			if (suf.equals(NONWORD)) {
+				System.out.print("\n");
 				break;
-			System.out.println(suf);
+			}
+			if (i == 0) {
+				System.out.print(suf);
+			}else {
+				System.out.print(" " + suf);
+			}
 			prefix.pref.removeElementAt(0);
 			prefix.pref.addElement(suf);
 		}
